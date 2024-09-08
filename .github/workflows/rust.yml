@@ -1,0 +1,32 @@
+name: Rust
+
+on:
+  # Trigger the workflow when a pull request is opened, synchronized, or reopened
+  pull_request:
+    branches:
+      - master  # Runs the workflow for PRs targeting the master branch
+  
+  # Trigger the workflow when code is pushed to the master branch
+  push:
+    branches:
+      - master  # Runs the workflow when changes are pushed to master (after PR merge)
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu as the runner
+
+    steps:
+    # Step 1: Checkout the latest code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up the Rust toolchain
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable  # Use the stable version of Rust
+        override: true     # Override the default Rust version
+
+    # Step 3: Run tests
+    - name: Run tests
+      run: cargo test --verbose  # Run the cargo test command with verbose output
